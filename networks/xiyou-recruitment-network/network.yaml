@@ -1,0 +1,89 @@
+# 西天取经智能招聘网络
+# 基于OpenAgents的多智能体协作招聘评估系统
+
+network:
+  name: "XiyouRecruitment"
+  mode: "centralized"
+  node_id: "xiyou-recruitment-1"
+  
+  # Transport配置
+  transports:
+    - type: "http"
+      config:
+        port: 8700
+        serve_studio: true
+        serve_mcp: true
+    - type: "grpc"
+      config:
+        port: 8600
+        max_message_size: 104857600
+        compression: "gzip"
+        keepalive_time: 60000
+        keepalive_timeout: 30000
+  
+  manifest_transport: "http"
+  recommended_transport: "grpc"
+  
+  # 安全配置
+  encryption_enabled: false
+  
+  # 发现配置
+  discovery_interval: 10
+  discovery_enabled: true
+  
+  # 连接管理
+  max_connections: 50
+  connection_timeout: 30.0
+  retry_attempts: 3
+  heartbeat_interval: 60
+  agent_timeout: 180
+  
+  # 消息配置
+  message_queue_size: 1000
+  message_timeout: 30.0
+  message_routing_enabled: true
+  
+  # Mod配置
+  mods:
+    - name: "openagents.mods.workspace.messaging"
+      enabled: true
+      config:
+        default_channels:
+          - name: "recruitment"
+            description: "招聘评估频道"
+        max_thread_depth: 5
+    - name: "openagents.mods.coordination.task_delegation"
+      enabled: true
+    - name: "openagents.mods.workspace.shared_artifact"
+      enabled: true
+    - name: "openagents.mods.workspace.feed"
+      enabled: true
+    # - name: "openagents.mods.core.shared_cache"
+    #   enabled: true
+
+# 网络配置文件
+network_profile:
+  discoverable: true
+  name: "西天取经智能招聘网络"
+  description: "基于OpenAgents的多智能体协作招聘评估系统，为观音菩萨提供智能化的妖怪简历筛选服务"
+  tags:
+    - "recruitment"
+    - "multi-agent"
+    - "ai"
+    - "demo"
+  categories:
+    - "productivity"
+    - "hr"
+  country: "Worldwide"
+  required_openagents_version: "0.8.1"
+  capacity: 50
+  authentication:
+    type: "none"
+  host: "0.0.0.0"
+  port: 8700
+
+# 全局设置
+log_level: "INFO"
+data_dir: "./data"
+runtime_limit: null
+shutdown_timeout: 30
